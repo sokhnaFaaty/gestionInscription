@@ -1,0 +1,35 @@
+{
+    "students":[
+        {
+            "id":1,
+            "nom":"Diaw",
+            "prenom":"Abdoulaye",
+            "email":"abdou@gmail.com"
+        },
+         {
+            "id":2,
+            "nom":"Ndiaye",
+            "prenom":"Fatou",
+            "email":"fatoun@gmail.com"
+        },
+         {
+            "id":3,
+            "nom":"Diop",
+            "prenom":"Fallou",
+            "email":"diopfallou@gmail.com"
+        }
+    ],
+    "formations":[
+        {
+      "id":1,
+      "titre":"Data Science",
+      "description":"Spécialisation en analyse de données et intelligence artificielle."
+    },
+      {
+      "id":2,
+      "titre":"Genie Logicielle",
+      "description":"Formation complète en génie logicielle."
+    }
+        
+    ]
+}
