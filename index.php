@@ -160,6 +160,17 @@ function jsonToArray($data){
     $json = json_encode($data);
     file_put_contents('data.json', $json);
 }
+function menuFormation(){
+    while(true){
+        echo "\n===============================================\n";
+        echo "        GESTION DES FORMATIONS\n";
+        echo "===============================================\n";
+        echo "1. Ajouter une formation\n";
+        echo "2. Modifier une formation\n";
+        echo "3. Supprimer une formation\n";
+        echo "4. Lister toutes les formations\n";
+        echo "5. Retour\n";
+        echo "===============================================\n";
 function menuStudent(){
     while(true){
         echo "\n============================================\n";
@@ -176,6 +187,27 @@ function menuStudent(){
         
         switch($choix){
             case 1:
+                $nouvelleFormation = saisieFormation();
+                if($nouvelleFormation){
+                    ajouterFormation($nouvelleFormation);
+                }
+                break;
+            case 2:
+                $id = (int)readline("ID de la formation à modifier : ");
+                $formation = getFormationById($id);
+                if($formation){
+                    echo "Nouvelles valeurs (laisser vide pour conserver) :\n";
+                    $titre = readline("Titre ({$formation['titre']}) : ");
+                    $description = readline("Description ({$formation['description']}) : ");
+                    
+                    $formationModifiee = [
+                        'id' => $id,
+                        'titre' => !empty($titre) ? $titre : $formation['titre'],
+                        'description' => !empty($description) ? $description : $formation['description']
+                    ];
+                    
+                    if(modifierFormation($formationModifiee)){
+                        echo "Formation modifiée !\n";
                 $nouvelStudent = saisieStudent();
                 if($nouvelStudent){
                     ajouterStudent($nouvelStudent);
@@ -203,6 +235,18 @@ function menuStudent(){
                         echo "Erreur lors de la modification !\n";
                     }
                 } else {
+                    echo "Formation non trouvée !\n";
+                }
+                break;
+            case 3:
+                $id = (int)readline("ID de la formation à supprimer : ");
+                $formation = getFormationById($id);
+                if($formation){
+                    echo "Formation : " . $formation['titre'] . "\n";
+                    $confirmation = readline("Confirmer la suppression (o/N) : ");
+                    if(strtolower($confirmation) == 'o'){
+                        if(deleteFormation($id)){
+                            echo "Formation supprimée !\n";
                     echo "Étudiant non trouvé !\n";
                 }
                 break;
@@ -222,6 +266,12 @@ function menuStudent(){
                         echo "Suppression annulée.\n";
                     }
                 } else {
+                    echo "Formation non trouvée !\n";
+                }
+                break;
+            case 4:
+                $formations = getAllFormations();
+                afficherToutesLesFormations($formations);
                     echo "Étudiant non trouvé !\n";
                 }
                 break;
@@ -237,6 +287,32 @@ function menuStudent(){
         }
     }
 }
+
+
+if(!file_exists('data.json')){
+    $initData = ['students' => [], 'formations' => []];
+    file_put_contents('data.json', json_encode($initData, JSON_PRETTY_PRINT));
+}
+
+// Menu principal
+do{
+    menuPrincipal();
+    $choix = readline("Votre choix : ");
+    switch($choix){
+        case 1:
+            menuStudent();
+            break;
+        case 2:
+            menuFormation();
+            break;
+        case 3:
+            echo "Au revoir !\n";
+            exit(0);
+        default:
+            echo "Choix invalide ! Veuillez entrer 1, 2 ou 3.\n";
+    }
+} while(true);
+
 function menuPrincipal(){
     echo "\n========================================\n";
     echo "   GESTION DES INSCRIPTIONS - ÉCOLE 221\n";
