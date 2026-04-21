@@ -245,6 +245,7 @@ function menuPrincipal(){
     echo "2. Gestion des formations\n";
     echo "3. Quitter\n";
     echo "========================================\n";
+}
 function afficherUnStudent($student){
     echo "===================================\n";
     echo "Nom : " . $student['nom']." \n";
