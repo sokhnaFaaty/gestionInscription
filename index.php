@@ -5,7 +5,14 @@ function deleteStudent($id){
         if($student['id'] == $id){
             unset($data['students'][$key]);
             $data['students'] = array_values($data['students']);
-function modifierStudent($modifierStudent){
+                jsonToArray($data);
+            return true;
+        }
+    }
+    return false;
+}
+
+            function modifierStudent($modifierStudent){
     $data = arrayToJson();
     foreach($data['students'] as $key => $student){
         if($student['id'] == $modifierStudent['id']){
@@ -24,7 +31,11 @@ function deleteFormation($id){
             unset($data['formations'][$key]);
             $data['formations'] = array_values($data['formations']);
     
-return false;
+   jsonToArray($data);
+            return true;
+        }
+    }
+    return false;
 }
 
 function modifierFormation($modifierFormation){
@@ -40,7 +51,7 @@ function modifierFormation($modifierFormation){
     
 return false;
 }
-unction saisieStudent(){
+function saisieStudent(){
     $nom = readline("Entrez le nom de l'etudiant : ");
     $prenom = readline("Entrez le prenom de l'etudiant : ");
     $email = readline("Entrez l'email de l'etudiant : ");
@@ -87,7 +98,7 @@ function ajouterFormation($newformation){
     $data['formations'][] = $newformation;
     jsonToArray($data);
 }
-<?php 
+
 function validerEmail($email){
     $pattern = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
     if(preg_match($pattern, $email)) {
@@ -106,7 +117,7 @@ function uniciteEmail($email){
     }
     return true;
 }
-<?php
+
 function getAllStudents(){
     $data = arrayToJson();
     return $data['students'] ?? [];
@@ -132,11 +143,13 @@ function getFormationById($id){
     $data = arrayToJson();
     foreach($data['formations'] as $formation){
         if($formation['id'] == $id){
-            return $formation;
+             return $formation;
         }
     }
     return null;
-<?php 
+}
+
+
 function arrayToJson(){
     $json = file_get_contents('data.json');
     $data = json_decode($json, true);
