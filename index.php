@@ -160,3 +160,80 @@ function jsonToArray($data){
     $json = json_encode($data);
     file_put_contents('data.json', $json);
 }
+function menuStudent(){
+    while(true){
+        echo "\n============================================\n";
+        echo "        GESTION DES ÉTUDIANTS\n";
+        echo "============================================\n";
+        echo "1. Ajouter un étudiant\n";
+        echo "2. Modifier un étudiant\n";
+        echo "3. Supprimer un étudiant\n";
+        echo "4. Lister tous les étudiants\n";
+        echo "5. Retour\n";
+        echo "============================================\n";
+        
+        $choix = readline("Votre choix : ");
+        
+        switch($choix){
+            case 1:
+                $nouvelStudent = saisieStudent();
+                if($nouvelStudent){
+                    ajouterStudent($nouvelStudent);
+                }
+                break;
+            case 2:
+                $id = (int)readline("ID de l'étudiant à modifier : ");
+                $student = getStudentById($id);
+                if($student){
+                    // echo "Nouvelles valeurs (laisser vide pour conserver) :\n";
+                    $nom = readline("Nom ({$student['nom']}) : ");
+                    $prenom = readline("Prénom ({$student['prenom']}) : ");
+                    $email = readline("Email ({$student['email']}) : ");
+                    
+                    $studentModifie = [
+                        'id' => $id,
+                        'nom' => !empty($nom) ? $nom : $student['nom'],
+                        'prenom' => !empty($prenom) ? $prenom : $student['prenom'],
+                        'email' => !empty($email) ? $email : $student['email']
+                    ];
+                    
+                    if(modifierStudent($studentModifie)){
+                        echo "Étudiant modifié !\n";
+                    } else {
+                        echo "Erreur lors de la modification !\n";
+                    }
+                } else {
+                    echo "Étudiant non trouvé !\n";
+                }
+                break;
+            case 3:
+                $id = (int)readline("ID de l'étudiant à supprimer : ");
+                $student = getStudentById($id);
+                if($student){
+                    echo "Étudiant : " . $student['prenom'] . " " . $student['nom'] . "\n";
+                    $confirmation = readline("Confirmer la suppression (o/N) : ");
+                    if(strtolower($confirmation) == 'o'){
+                        if(deleteStudent($id)){
+                            echo "Étudiant supprimé !\n";
+                        } else {
+                            echo "Erreur lors de la suppression !\n";
+                        }
+                    } else {
+                        echo "Suppression annulée.\n";
+                    }
+                } else {
+                    echo "Étudiant non trouvé !\n";
+                }
+                break;
+            case 4:
+                $students = getAllStudents();
+                afficherTousLesStudents($students);
+                break;
+            case 5:
+                echo "Retour au menu principal...\n";
+                return;
+            default:
+                echo "Choix invalide !\n";
+        }
+    }
+}
