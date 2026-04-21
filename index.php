@@ -160,6 +160,14 @@ function jsonToArray($data){
     $json = json_encode($data);
     file_put_contents('data.json', $json);
 }
+function menuPrincipal(){
+    echo "\n========================================\n";
+    echo "   GESTION DES INSCRIPTIONS - ÉCOLE 221\n";
+    echo "========================================\n";
+    echo "1. Gestion des étudiants\n";
+    echo "2. Gestion des formations\n";
+    echo "3. Quitter\n";
+    echo "========================================\n";
 function afficherUnStudent($student){
     echo "===================================\n";
     echo "Nom : " . $student['nom']." \n";
