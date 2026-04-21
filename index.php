@@ -168,4 +168,29 @@ function menuPrincipal(){
     echo "2. Gestion des formations\n";
     echo "3. Quitter\n";
     echo "========================================\n";
+function afficherUnStudent($student){
+    echo "===================================\n";
+    echo "Nom : " . $student['nom']." \n";
+    echo "Prénom : " . $student['prenom'] . "\n";
+    echo "Email : " . $student['email'] . "\n";
+    echo "===================================\n";
+}
+
+function afficherTousLesStudents($students){
+    foreach($students as $student){
+        afficherUnStudent($student);
+    }
+}
+
+function afficherUneFormation($formation){
+    echo "===================================\n";
+    echo "Titre : " . $formation['titre']." \n";
+    echo "Description : " . $formation['description'] . "\n";
+    echo "===================================\n";
+}
+
+function afficherToutesLesFormations($formations){
+    foreach($formations as $formation){
+        afficherUneFormation($formation);
+    }
 }
