@@ -1,4 +1,10 @@
 <?php
+function deleteStudent($id){
+    $data = arrayToJson();
+    foreach($data['students'] as $key => $student){
+        if($student['id'] == $id){
+            unset($data['students'][$key]);
+            $data['students'] = array_values($data['students']);
 function modifierStudent($modifierStudent){
     $data = arrayToJson();
     foreach($data['students'] as $key => $student){
@@ -8,6 +14,15 @@ function modifierStudent($modifierStudent){
             return true;
         }
     }
+    return false;
+}
+
+function deleteFormation($id){
+    $data = arrayToJson();
+    foreach($data['formations'] as $key => $formation){
+        if($formation['id'] == $id){
+            unset($data['formations'][$key]);
+            $data['formations'] = array_values($data['formations']);
     
 return false;
 }
@@ -21,6 +36,7 @@ function modifierFormation($modifierFormation){
             return true;
         }
     }
+    return false;
     
 return false;
 }
