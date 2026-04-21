@@ -171,6 +171,17 @@ function menuFormation(){
         echo "4. Lister toutes les formations\n";
         echo "5. Retour\n";
         echo "===============================================\n";
+function menuStudent(){
+    while(true){
+        echo "\n============================================\n";
+        echo "        GESTION DES ÉTUDIANTS\n";
+        echo "============================================\n";
+        echo "1. Ajouter un étudiant\n";
+        echo "2. Modifier un étudiant\n";
+        echo "3. Supprimer un étudiant\n";
+        echo "4. Lister tous les étudiants\n";
+        echo "5. Retour\n";
+        echo "============================================\n";
         
         $choix = readline("Votre choix : ");
         
@@ -197,6 +208,29 @@ function menuFormation(){
                     
                     if(modifierFormation($formationModifiee)){
                         echo "Formation modifiée !\n";
+                $nouvelStudent = saisieStudent();
+                if($nouvelStudent){
+                    ajouterStudent($nouvelStudent);
+                }
+                break;
+            case 2:
+                $id = (int)readline("ID de l'étudiant à modifier : ");
+                $student = getStudentById($id);
+                if($student){
+                    // echo "Nouvelles valeurs (laisser vide pour conserver) :\n";
+                    $nom = readline("Nom ({$student['nom']}) : ");
+                    $prenom = readline("Prénom ({$student['prenom']}) : ");
+                    $email = readline("Email ({$student['email']}) : ");
+                    
+                    $studentModifie = [
+                        'id' => $id,
+                        'nom' => !empty($nom) ? $nom : $student['nom'],
+                        'prenom' => !empty($prenom) ? $prenom : $student['prenom'],
+                        'email' => !empty($email) ? $email : $student['email']
+                    ];
+                    
+                    if(modifierStudent($studentModifie)){
+                        echo "Étudiant modifié !\n";
                     } else {
                         echo "Erreur lors de la modification !\n";
                     }
@@ -213,6 +247,18 @@ function menuFormation(){
                     if(strtolower($confirmation) == 'o'){
                         if(deleteFormation($id)){
                             echo "Formation supprimée !\n";
+                    echo "Étudiant non trouvé !\n";
+                }
+                break;
+            case 3:
+                $id = (int)readline("ID de l'étudiant à supprimer : ");
+                $student = getStudentById($id);
+                if($student){
+                    echo "Étudiant : " . $student['prenom'] . " " . $student['nom'] . "\n";
+                    $confirmation = readline("Confirmer la suppression (o/N) : ");
+                    if(strtolower($confirmation) == 'o'){
+                        if(deleteStudent($id)){
+                            echo "Étudiant supprimé !\n";
                         } else {
                             echo "Erreur lors de la suppression !\n";
                         }
@@ -226,6 +272,12 @@ function menuFormation(){
             case 4:
                 $formations = getAllFormations();
                 afficherToutesLesFormations($formations);
+                    echo "Étudiant non trouvé !\n";
+                }
+                break;
+            case 4:
+                $students = getAllStudents();
+                afficherTousLesStudents($students);
                 break;
             case 5:
                 echo "Retour au menu principal...\n";
@@ -261,3 +313,37 @@ do{
     }
 } while(true);
 
+function menuPrincipal(){
+    echo "\n========================================\n";
+    echo "   GESTION DES INSCRIPTIONS - ÉCOLE 221\n";
+    echo "========================================\n";
+    echo "1. Gestion des étudiants\n";
+    echo "2. Gestion des formations\n";
+    echo "3. Quitter\n";
+    echo "========================================\n";
+function afficherUnStudent($student){
+    echo "===================================\n";
+    echo "Nom : " . $student['nom']." \n";
+    echo "Prénom : " . $student['prenom'] . "\n";
+    echo "Email : " . $student['email'] . "\n";
+    echo "===================================\n";
+}
+
+function afficherTousLesStudents($students){
+    foreach($students as $student){
+        afficherUnStudent($student);
+    }
+}
+
+function afficherUneFormation($formation){
+    echo "===================================\n";
+    echo "Titre : " . $formation['titre']." \n";
+    echo "Description : " . $formation['description'] . "\n";
+    echo "===================================\n";
+}
+
+function afficherToutesLesFormations($formations){
+    foreach($formations as $formation){
+        afficherUneFormation($formation);
+    }
+}
