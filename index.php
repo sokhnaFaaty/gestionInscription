@@ -171,19 +171,7 @@ function menuFormation(){
         echo "4. Lister toutes les formations\n";
         echo "5. Retour\n";
         echo "===============================================\n";
-function menuStudent(){
-    while(true){
-        echo "\n============================================\n";
-        echo "        GESTION DES ÉTUDIANTS\n";
-        echo "============================================\n";
-        echo "1. Ajouter un étudiant\n";
-        echo "2. Modifier un étudiant\n";
-        echo "3. Supprimer un étudiant\n";
-        echo "4. Lister tous les étudiants\n";
-        echo "5. Retour\n";
-        echo "============================================\n";
-        
-        $choix = readline("Votre choix : ");
+         $choix = readline("Votre choix : ");
         
         switch($choix){
             case 1:
@@ -211,9 +199,57 @@ function menuStudent(){
                 $nouvelStudent = saisieStudent();
                 if($nouvelStudent){
                     ajouterStudent($nouvelStudent);
+                }}}
+                break;
+
+                   case 3:
+                $id = (int)readline("ID de la formation à supprimer : ");
+                $formation = getFormationById($id);
+                if($formation){
+                    echo "Formation : " . $formation['titre'] . "\n";
+                    $confirmation = readline("Confirmer la suppression (o/N) : ");
+                    if(strtolower($confirmation) == 'o'){
+                        if(deleteFormation($id)){
+                            echo "Formation supprimée !\n";
+                    echo "Étudiant non trouvé !\n";
+                }
+                    }}
+                break;
+case 4:
+                $formations = getAllFormations();
+                afficherToutesLesFormations($formations);
+                    echo "Étudiant non trouvé !\n";
+            
+                break;
+                 case 5:
+                echo "Retour au menu principal...\n";
+                return;
+            default:
+                echo "Choix invalide !\n";
+    }
+}
+}
+function menuStudent(){
+    while(true){
+        echo "\n============================================\n";
+        echo "        GESTION DES ÉTUDIANTS\n";
+        echo "============================================\n";
+        echo "1. Ajouter un étudiant\n";
+        echo "2. Modifier un étudiant\n";
+        echo "3. Supprimer un étudiant\n";
+        echo "4. Lister tous les étudiants\n";
+        echo "5. Retour\n";
+        echo "============================================\n";
+        $choix = readline("Votre choix : ");
+        
+        switch($choix){
+ case 1:
+                $nouvelleStudent = saisieStudent();
+                if($nouvelleStudent){
+                    ajouterStudent($nouvelleStudent);
                 }
                 break;
-            case 2:
+                   case 2:
                 $id = (int)readline("ID de l'étudiant à modifier : ");
                 $student = getStudentById($id);
                 if($student){
@@ -238,20 +274,7 @@ function menuStudent(){
                     echo "Formation non trouvée !\n";
                 }
                 break;
-            case 3:
-                $id = (int)readline("ID de la formation à supprimer : ");
-                $formation = getFormationById($id);
-                if($formation){
-                    echo "Formation : " . $formation['titre'] . "\n";
-                    $confirmation = readline("Confirmer la suppression (o/N) : ");
-                    if(strtolower($confirmation) == 'o'){
-                        if(deleteFormation($id)){
-                            echo "Formation supprimée !\n";
-                    echo "Étudiant non trouvé !\n";
-                }
-                break;
-            case 3:
-                $id = (int)readline("ID de l'étudiant à supprimer : ");
+                     $id = (int)readline("ID de l'étudiant à supprimer : ");
                 $student = getStudentById($id);
                 if($student){
                     echo "Étudiant : " . $student['prenom'] . " " . $student['nom'] . "\n";
@@ -269,12 +292,7 @@ function menuStudent(){
                     echo "Formation non trouvée !\n";
                 }
                 break;
-            case 4:
-                $formations = getAllFormations();
-                afficherToutesLesFormations($formations);
-                    echo "Étudiant non trouvé !\n";
-                }
-                break;
+           
             case 4:
                 $students = getAllStudents();
                 afficherTousLesStudents($students);
@@ -284,11 +302,13 @@ function menuStudent(){
                 return;
             default:
                 echo "Choix invalide !\n";
-        }
+
     }
+    }
+       
+         
+         
 }
-
-
 if(!file_exists('data.json')){
     $initData = ['students' => [], 'formations' => []];
     file_put_contents('data.json', json_encode($initData, JSON_PRETTY_PRINT));
@@ -347,3 +367,7 @@ function afficherToutesLesFormations($formations){
         afficherUneFormation($formation);
     }
 }
+}
+
+
+menuPrincipal();
