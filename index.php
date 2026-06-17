@@ -1,4 +1,13 @@
 <?php
+function filtrerStudentParFormation($students, $formationId){
+    $studentsFiltres = [];
+    foreach($students as $student){
+        if(isset($student['id_formation']) && $student['id_formation'] == $formationId){
+            $studentsFiltres[] = $student;
+        }
+    }
+    return $studentsFiltres;
+}
 function deleteStudent($id){
     $data = arrayToJson();
     foreach($data['students'] as $key => $student){
